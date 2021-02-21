@@ -1,21 +1,16 @@
 /** @format */
-
+import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import HomeScreen from './src/screens/HomeScreen';
-import ComponentsScreen from './src/screens/ComponentsScreens';
-import ListScreen from './src/screens/ListScreen';
-import ImageScreen from './src/screens/ImageScreen';
 import CounterScreen from './src/screens/CounterScreen';
 import ColorScreen from './src/screens/ColorScreen';
 import SquareScreen from './src/screens/SquareScreen';
+import { Provider } from './src/context/ColorContext';
 
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
-    Components: ComponentsScreen,
-    List: ListScreen,
-    Image: ImageScreen,
     Counter: CounterScreen,
     Color: ColorScreen,
     Square: SquareScreen
@@ -23,9 +18,17 @@ const navigator = createStackNavigator(
   {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
-      title: 'App',
+      title: 'Clash Of Colors',
     },
   }
 );
 
-export default createAppContainer(navigator);
+const App = createAppContainer(navigator);
+
+export default () => {
+  return (
+    <Provider>
+      <App />
+    </Provider>
+  );
+};

@@ -41,6 +41,6 @@ const randomRgb = () => {
   return `rgb(${red}, ${green}, ${blue})`;
 };
 
-const styls = StyleSheet.create({});
+const styles = StyleSheet.create({});
 
 export default ColorScreen;

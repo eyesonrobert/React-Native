@@ -1,16 +1,14 @@
 /** @format */
 
-import React, { useReducer } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useReducer, useContext } from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
 import ColorCounter from '../components/ColorCounter';
+import Spacer from '../components/Spacer';
+import { Context } from '../context/ColorContext';
 
 const COLOR_INCREMENT = 15;
 
 const reducer = (state, action) => {
-  //action refers to how we are going to change the state obj
-  // state === {red: number, green: number, blue: number}
-  // action === {type: 'change_red' || 'change_green' || 'change_blue', payload: 15 || -15}
-
   switch (action.type) {
     case 'change_red':
       return state.red + action.payload > 255 || state.red + action.payload < 0
@@ -32,12 +30,15 @@ const reducer = (state, action) => {
       return state;
   }
 };
-const SquareScreen = () => {
+const SquareScreen = ({ navigation }) => {
+  const playerNumber = navigation.getParam('playerNumber');
+
+  const { setPlayer1Color, setPlayer2Color } = useContext(Context);
+
   const [state, dispatch] = useReducer(reducer, { red: 0, green: 0, blue: 0 });
   const { red, green, blue } = state;
   return (
     <View>
-      <Text>Square Screen</Text>
       <ColorCounter
         color='Red'
         onIncrease={() =>
@@ -67,15 +68,32 @@ const SquareScreen = () => {
       />
       <View
         style={{
-          height: 150,
-          width: 150,
+          height: 300,
+          width: 400,
           backgroundColor: `rgb(${red}, ${green}, ${blue})`,
+          marginTop: 15,
         }}
       />
+      <Spacer>
+        <Button
+          title='Save'
+          onPress={() => {
+            if(playerNumber === 'Player 1'){
+              setPlayer1Color(red, green, blue, () =>
+                navigation.navigate('Home')
+              );
+            } else{
+              setPlayer2Color(red, green, blue, () =>
+                navigation.navigate('Home')
+              );
+            }
+          }}
+        />
+      </Spacer>
     </View>
   );
 };
 
-const styls = StyleSheet.create({});
+const styles = StyleSheet.create({});
 
 export default SquareScreen;

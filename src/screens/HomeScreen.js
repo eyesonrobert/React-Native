@@ -2,35 +2,36 @@
 
 import React from 'react';
 import { Text, StyleSheet, View, Button, TouchableOpacity } from 'react-native';
+import Spacer from '../components/Spacer';
 
 const HomeScreen = ({ navigation }) => {
   return (
     <View>
-      <Text style={styles.text}>Well Hello There!!</Text>
-      <Button
-        title='Go to Components Demo'
-        onPress={() => navigation.navigate('Components')}
-      />
-      <Button
-        title='Go to List Demo'
-        onPress={() => navigation.navigate('List')}
-      />
-      <Button
-        title='Go to Image Demo'
-        onPress={() => navigation.navigate('Image')}
-      />
-      <Button
-        title='Go to Counter Demo'
-        onPress={() => navigation.navigate('Counter')}
-      />
-      <Button
-        title='Go to Color Demo'
-        onPress={() => navigation.navigate('Color')}
-      />
-      <Button
-        title='Go to Square Demo'
-        onPress={() => navigation.navigate('Square')}
-      />
+      <Text style={styles.text}>Well Hello There</Text>
+      <Spacer>
+        <Button
+          title='Play Game'
+          onPress={() => navigation.navigate('Counter')}
+        />
+      </Spacer>
+      <Spacer>
+        <Button
+          title='Go to Color Demo'
+          onPress={() => navigation.navigate('Color')}
+        />
+      </Spacer>
+      <Spacer>
+        <Button
+          title='Set Player 1 Custom Color'
+          onPress={() => navigation.navigate('Square', { playerNumber: "Player 1" })}
+        />
+      </Spacer>
+      <Spacer>
+        <Button
+          title='Set Player 2 Customer Color'
+          onPress={() => navigation.navigate('Square', { playerNumber: "Player 2" })}
+        />
+      </Spacer>
     </View>
   );
 };
