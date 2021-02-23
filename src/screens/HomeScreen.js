@@ -14,12 +14,12 @@ const HomeScreen = ({ navigation }) => {
           onPress={() => navigation.navigate('Counter')}
         />
       </Spacer>
-      <Spacer>
+      {/* <Spacer>
         <Button
           title='Go to Color Demo'
           onPress={() => navigation.navigate('Color')}
         />
-      </Spacer>
+      </Spacer> */}
       <Spacer>
         <Button
           title='Set Player 1 Custom Color'
