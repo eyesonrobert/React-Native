@@ -26,7 +26,7 @@ const SquareScreen = ({ navigation }) => {
   return (
     <View>
       <Spacer>
-        <Text style={styles.saveText}>Tap Center to Save Color Choice</Text>
+        <Text style={styles.instructionText}>Tap Center to Save Color Choice</Text>
       </Spacer>
       <ColorPicker
         onColorSelected={(color) => {
@@ -43,6 +43,9 @@ const SquareScreen = ({ navigation }) => {
         }}
         style={styles.colorWheel}
       />
+         <Spacer>
+        <Text style={styles.instructionText}>Drag to lighten or darken colors</Text>
+      </Spacer>
     </View>
   );
 };
@@ -53,13 +56,11 @@ const styles = StyleSheet.create({
     width: 350,
     marginLeft: 15,
   },
-  saveText: {
+  instructionText: {
     fontSize: 20,
     color: 'black',
     zIndex: 1,
     position: 'absolute',
-    // top: 220,
-    // left: 20,
     alignSelf: 'center',
   },
 });

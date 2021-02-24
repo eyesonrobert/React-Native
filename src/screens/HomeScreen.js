@@ -1,11 +1,41 @@
 /** @format */
 
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
+import { Context } from '../context/ColorContext';
 import Spacer from '../components/Spacer';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const HomeScreen = ({ navigation }) => {
+  const { state, getPlayerColors } = useContext(Context);
+
+  let player1Color = null;
+  if (state?.player1) {
+    if (state.player1.red + state.player1.green + state.player1.blue) {
+      player1Color = `rgb(${state.player1.red}, ${state.player1.green}, ${state.player1.blue})`;
+    }
+  }
+
+  let player2Color = null;
+  if (state?.player2) {
+    if (state.player2.red + state.player2.green + state.player2.blue) {
+      player2Color = `rgb(${state.player2.red}, ${state.player2.green}, ${state.player2.blue})`;
+    }
+  }
+
+  useEffect(() => {
+    getPlayerColors();
+
+    const listener = navigation.addListener('didFocus', () => {
+      getPlayerColors();
+    });
+
+    return () => {
+      listener.remove();
+    };
+  }, []);
+
   return (
     <View style={{ backgroundColor: 'white' }}>
       <Spacer>
@@ -25,7 +55,16 @@ const HomeScreen = ({ navigation }) => {
       </Spacer>
       <Spacer>
         <Button
-          title='Set Player 1 Color'
+          title='Set Player 1 Color '
+          iconRight
+          icon={
+            <Icon
+              style={{ paddingLeft: 10 }}
+              name='square'
+              size={20}
+              color={player1Color}
+            />
+          }
           onPress={() =>
             navigation.navigate('Square', { playerNumber: 'Player 1' })
           }
@@ -34,6 +73,15 @@ const HomeScreen = ({ navigation }) => {
       <Spacer>
         <Button
           title='Set Player 2 Color'
+          iconRight
+          icon={
+            <Icon
+              style={{ paddingLeft: 10 }}
+              name='square'
+              size={20}
+              color={player2Color}
+            />
+          }
           onPress={() =>
             navigation.navigate('Square', { playerNumber: 'Player 2' })
           }
@@ -51,7 +99,7 @@ const styles = StyleSheet.create({
   paint: {
     height: 400,
     width: 400,
-    top: 110,
+    top: 80,
     transform: [{ rotate: '90deg' }],
   },
 });
