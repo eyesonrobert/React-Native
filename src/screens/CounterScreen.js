@@ -10,11 +10,15 @@ import {
 } from 'react-native';
 import { Context } from '../context/ColorContext';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
+import { Dimensions } from 'react-native';
 
 const CounterScreen = ({ navigation }) => {
+  const halfWindowHeight = Dimensions.get('window').height * 0.5;
+  const INCREMENT = halfWindowHeight/4.5;
+
   const [counter, setCounter] = useState(0);
-  const [topHeight, setTopHeight] = useState(320);
-  const [bottomHeight, setBottomHeight] = useState(320);
+  const [topHeight, setTopHeight] = useState(halfWindowHeight + 20);
+  const [bottomHeight, setBottomHeight] = useState(halfWindowHeight);
   const [showCountDown, setShowCountdown] = useState(true);
 
   const { state, getPlayerColors } = useContext(Context);
@@ -35,9 +39,13 @@ const CounterScreen = ({ navigation }) => {
 
   refresh = () => {
     setCounter(0);
-    setTopHeight(320);
-    setBottomHeight(320);
+    setTopHeight(halfWindowHeight);
+    setBottomHeight(halfWindowHeight);
     setShowCountdown(true);
+  };
+
+  goHome = () => {
+    navigation.navigate('Home');
   };
 
   const reRunCountDown = () => {
@@ -59,12 +67,17 @@ const CounterScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: player2Color }}>
-      <View style={{ backgroundColor: player1Color }}>
+      <View
+        style={{
+          backgroundColor: player1Color,
+          // borderColor: 'white',
+          // borderWidth: 5,
+        }}>
         <TouchableOpacity
           style={{ height: topHeight, backgroundColor: player1Color }}
           onPress={() => {
             setCounter(counter + 1);
-            setTopHeight(topHeight + 75);
+            setTopHeight(topHeight + INCREMENT);
           }}
           disabled={counter === -5 || counter === 5 || showCountDown}
         />
@@ -74,7 +87,7 @@ const CounterScreen = ({ navigation }) => {
           style={{
             zIndex: 2,
             position: 'absolute',
-            top: 220,
+            top: halfWindowHeight - 100,
             left: 100,
           }}>
           <CountdownCircleTimer
@@ -99,14 +112,17 @@ const CounterScreen = ({ navigation }) => {
         </View>
       ) : null}
       <TouchableOpacity
+        activeOpacity={1}
         style={{
           height: bottomHeight,
-          backgroundColor: player2Color,
+          // backgroundColor: player2Color,
           flex: 1,
+          // borderColor: 'purple',
+          // borderWidth: 5,
         }}
         onPress={() => {
           setCounter(counter - 1);
-          setTopHeight(topHeight - 75);
+          setTopHeight(topHeight - INCREMENT);
         }}
         disabled={counter === -5 || counter === 5 || showCountDown}
       />
@@ -119,7 +135,7 @@ const gameOver = (counter) => {
   let winner = 'Player 1';
   let loser = 'Player 1';
 
-  if (counter === 15) {
+  if (counter === 5) {
     winner = 'Player 1';
     loser = 'Player 2';
   } else {
@@ -132,6 +148,15 @@ const gameOver = (counter) => {
     `Better luck next time, ${loser}`,
     [
       {
+        text: 'Back to Home',
+        onPress: () => {
+          goHome();
+        },
+      },
+      {
+        text: '',
+      },
+      {
         text: 'Replay',
         style: 'cancel',
         onPress: () => {
@@ -141,6 +166,12 @@ const gameOver = (counter) => {
     ],
     { cancelable: false }
   );
+};
+
+CounterScreen.navigationOptions = () => {
+  return {
+    headerShown: false,
+  };
 };
 
 const styles = StyleSheet.create({});

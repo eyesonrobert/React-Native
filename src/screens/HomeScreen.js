@@ -1,44 +1,58 @@
 /** @format */
 
 import React from 'react';
-import { Text, StyleSheet, View, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
+import { Button } from 'react-native-elements';
 import Spacer from '../components/Spacer';
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View>
-      <Text style={styles.text}>Well Hello There</Text>
+    <View style={{ backgroundColor: 'white' }}>
       <Spacer>
         <Button
+          activeOpacity={1}
           title='Play Game'
+          type='clear'
           onPress={() => navigation.navigate('Counter')}
-        />
-      </Spacer>
-      {/* <Spacer>
-        <Button
-          title='Go to Color Demo'
-          onPress={() => navigation.navigate('Color')}
-        />
-      </Spacer> */}
-      <Spacer>
-        <Button
-          title='Set Player 1 Custom Color'
-          onPress={() => navigation.navigate('Square', { playerNumber: "Player 1" })}
+          buttonStyle={{
+            backgroundColor: 'black',
+            borderRadius: 60,
+            alignSelf: 'center',
+            height: 50,
+            width: 300,
+          }}
         />
       </Spacer>
       <Spacer>
         <Button
-          title='Set Player 2 Customer Color'
-          onPress={() => navigation.navigate('Square', { playerNumber: "Player 2" })}
+          title='Set Player 1 Color'
+          onPress={() =>
+            navigation.navigate('Square', { playerNumber: 'Player 1' })
+          }
         />
       </Spacer>
+      <Spacer>
+        <Button
+          title='Set Player 2 Color'
+          onPress={() =>
+            navigation.navigate('Square', { playerNumber: 'Player 2' })
+          }
+        />
+      </Spacer>
+      <Image
+        style={styles.paint}
+        source={require('../../assets/paint_brushes.png')}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 30,
+  paint: {
+    height: 400,
+    width: 400,
+    top: 110,
+    transform: [{ rotate: '90deg' }],
   },
 });
 
