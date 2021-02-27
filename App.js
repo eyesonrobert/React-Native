@@ -17,6 +17,7 @@ const navigator = createStackNavigator(
     initialRouteName: 'Home',
     defaultNavigationOptions: {
       title: 'Clash Of Colors',
+      headerTitleAlign: 'center'
     },
   }
 );

@@ -1,13 +1,29 @@
 /** @format */
 
-import React, { useContext, useEffect } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Easing,
+  Modal,
+  Pressable,
+  Text,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import { Context } from '../context/ColorContext';
 import Spacer from '../components/Spacer';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Animated } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [spinAnim, setSpinAnim] = useState(new Animated.Value(0));
+  const spin = spinAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
   const { state, getPlayerColors } = useContext(Context);
 
   let player1Color = null;
@@ -26,6 +42,14 @@ const HomeScreen = ({ navigation }) => {
 
   useEffect(() => {
     getPlayerColors();
+    Animated.loop(
+      Animated.timing(spinAnim, {
+        toValue: 1,
+        duration: 5000,
+        easing: Easing.linear,
+        useNativeDriver: true,
+      })
+    ).start();
 
     const listener = navigation.addListener('didFocus', () => {
       getPlayerColors();
@@ -37,7 +61,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={{ backgroundColor: 'white' }}>
+    <View>
       <Spacer>
         <Button
           activeOpacity={1}
@@ -87,21 +111,79 @@ const HomeScreen = ({ navigation }) => {
           }
         />
       </Spacer>
-      <Image
-        style={styles.paint}
-        source={require('../../assets/paint_brushes.png')}
+      <Animated.Image
+        style={{ transform: [{ rotate: spin }], height: 400, width: 390 }}
+        source={require('../../assets/color-wheel.png')}
       />
+      <Modal
+        animationType='slide'
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>
+              Each player choose a color
+            </Text>
+            <Text style={styles.modalText}>
+              Tap your color faster than your opponent to win
+            </Text>
+
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text style={styles.textStyle}>Okay, I'm ready to play</Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
+      <Spacer>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}>
+          <Text style={styles.textStyle}>Instructions</Text>
+        </Pressable>
+      </Spacer>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  paint: {
-    height: 400,
-    width: 400,
-    top: 80,
-    transform: [{ rotate: '90deg' }],
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  textStyle: {
+    marginTop: 15,
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  
 });
 
 export default HomeScreen;
