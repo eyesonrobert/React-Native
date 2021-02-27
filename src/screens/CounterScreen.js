@@ -70,8 +70,6 @@ const CounterScreen = ({ navigation }) => {
       <View
         style={{
           backgroundColor: player1Color,
-          // borderColor: 'white',
-          // borderWidth: 5,
         }}>
         <TouchableOpacity
           style={{ height: topHeight, backgroundColor: player1Color }}
@@ -115,10 +113,7 @@ const CounterScreen = ({ navigation }) => {
         activeOpacity={1}
         style={{
           height: bottomHeight,
-          // backgroundColor: player2Color,
           flex: 1,
-          // borderColor: 'purple',
-          // borderWidth: 5,
         }}
         onPress={() => {
           setCounter(counter - 1);

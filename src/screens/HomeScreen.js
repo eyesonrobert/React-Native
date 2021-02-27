@@ -9,15 +9,21 @@ import {
   Modal,
   Pressable,
   Text,
+  Platform,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Context } from '../context/ColorContext';
 import Spacer from '../components/Spacer';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Animated } from 'react-native';
+import { AdMobBanner } from 'expo-ads-admob';
+import { Dimensions } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
+  const halfWindowHeight = Dimensions.get('window').height / 2;
+
   const [modalVisible, setModalVisible] = useState(false);
+
   const [spinAnim, setSpinAnim] = useState(new Animated.Value(0));
   const spin = spinAnim.interpolate({
     inputRange: [0, 1],
@@ -40,6 +46,13 @@ const HomeScreen = ({ navigation }) => {
     }
   }
 
+  const bannerAdId =
+    Platform.OS === 'ios'
+      ? 'ca-app-pub-7813979423725088/8221020585'
+      : 'ca-app-pub-7813979423725088/1597910095';
+
+  const showAdd = Math.random() * 10;
+
   useEffect(() => {
     getPlayerColors();
     Animated.loop(
@@ -61,7 +74,7 @@ const HomeScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <Spacer>
         <Button
           activeOpacity={1}
@@ -112,7 +125,12 @@ const HomeScreen = ({ navigation }) => {
         />
       </Spacer>
       <Animated.Image
-        style={{ transform: [{ rotate: spin }], height: 400, width: 390 }}
+        style={{
+          transform: [{ rotate: spin }],
+          height: halfWindowHeight,
+          width: halfWindowHeight,
+          alignSelf: 'center',
+        }}
         source={require('../../assets/color-wheel.png')}
       />
       <Modal
@@ -120,14 +138,11 @@ const HomeScreen = ({ navigation }) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>
-              Each player choose a color
-            </Text>
+            <Text style={styles.modalText}>Each player choose a color</Text>
             <Text style={styles.modalText}>
               Tap your color faster than your opponent to win
             </Text>
@@ -140,13 +155,20 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-      <Spacer>
         <Pressable
           style={[styles.button, styles.buttonOpen]}
           onPress={() => setModalVisible(true)}>
           <Text style={styles.textStyle}>Instructions</Text>
         </Pressable>
-      </Spacer>
+      {showAdd > 7 ? (
+        <View style={styles.bottom}>
+          <AdMobBanner
+            bannerSize='fullBanner'
+            adUnitID={bannerAdId}
+            servePersonalizedAds={false}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -183,7 +205,11 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
   },
-  
+  bottom: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    marginBottom: 0
+  }
 });
 
 export default HomeScreen;
