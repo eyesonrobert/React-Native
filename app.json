@@ -1,15 +1,11 @@
 {
   "expo": {
-    "name": "rn-starter",
+    "name": "clash-of-colors",
+    "description": "Tap your color faster than you opponent can to win",
     "slug": "rn-starter",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,16 +19,9 @@
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      },
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7813979423725088~9841864649"
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }
