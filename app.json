@@ -14,11 +14,13 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.eyesonrobert.clashOfColors",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7813979423725088~9047657728"
       }
     },
     "android": {
+      "package": "com.eyesonrobert.clashOfColors",
       "config": {
         "googleMobileAdsAppId": "ca-app-pub-7813979423725088~9841864649"
       }
