@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   Animated,
+  Platform,
 } from 'react-native';
 import { Context } from '../context/ColorContext';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer';
@@ -14,7 +15,7 @@ import { Dimensions } from 'react-native';
 
 const CounterScreen = ({ navigation }) => {
   const halfWindowHeight = Dimensions.get('window').height * 0.5;
-  const INCREMENT = halfWindowHeight/4.5;
+  const INCREMENT = halfWindowHeight / 4.5;
 
   const [counter, setCounter] = useState(0);
   const [topHeight, setTopHeight] = useState(halfWindowHeight + 20);
@@ -85,8 +86,8 @@ const CounterScreen = ({ navigation }) => {
           style={{
             zIndex: 2,
             position: 'absolute',
+            alignSelf: 'center',
             top: halfWindowHeight - 100,
-            left: 100,
           }}>
           <CountdownCircleTimer
             onComplete={() => {
@@ -138,29 +139,52 @@ const gameOver = (counter) => {
     loser = 'Player 1';
   }
 
-  Alert.alert(
-    `${winner} Wins`,
-    `Better luck next time, ${loser}`,
-    [
-      {
-        text: 'Back to Home',
-        onPress: () => {
-          goHome();
+  if (Platform.OS === 'ios') {
+    Alert.alert(
+      `${winner} Wins`,
+      `Better luck next time, ${loser}`,
+      [
+        {
+          text: 'Back to Home',
+          onPress: () => {
+            goHome();
+          },
         },
-      },
-      {
-        text: '',
-      },
-      {
-        text: 'Replay',
-        style: 'cancel',
-        onPress: () => {
-          refresh();
+        {
+          text: 'Replay',
+          style: 'cancel',
+          onPress: () => {
+            refresh();
+          },
         },
-      },
-    ],
-    { cancelable: false }
-  );
+      ],
+      { cancelable: false }
+    );
+  } else {
+    Alert.alert(
+      `${winner} Wins`,
+      `Better luck next time, ${loser}`,
+      [
+        {
+          text: 'Back to Home',
+          onPress: () => {
+            goHome();
+          },
+        },
+        {
+          text: '',
+        },
+        {
+          text: 'Replay',
+          style: 'cancel',
+          onPress: () => {
+            refresh();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  }
 };
 
 CounterScreen.navigationOptions = () => {

@@ -32,14 +32,14 @@ const HomeScreen = ({ navigation }) => {
 
   const { state, getPlayerColors } = useContext(Context);
 
-  let player1Color = null;
+  let player1Color = `rgb(32,137,220)`;
   if (state?.player1) {
     if (state.player1.red + state.player1.green + state.player1.blue) {
       player1Color = `rgb(${state.player1.red}, ${state.player1.green}, ${state.player1.blue})`;
     }
   }
 
-  let player2Color = null;
+  let player2Color = `rgb(32,137,220)`;
   if (state?.player2) {
     if (state.player2.red + state.player2.green + state.player2.blue) {
       player2Color = `rgb(${state.player2.red}, ${state.player2.green}, ${state.player2.blue})`;
