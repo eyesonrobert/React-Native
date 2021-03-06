@@ -2,7 +2,7 @@
   "expo": {
     "name": "clash-of-colors",
     "description": "Tap your color faster than you opponent can to win",
-    "slug": "rn-starter",
+    "slug": "clash-of-colors-the-game",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
