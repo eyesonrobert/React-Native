@@ -18,7 +18,7 @@ const CounterScreen = ({ navigation }) => {
   const INCREMENT = halfWindowHeight / 4.5;
 
   const [counter, setCounter] = useState(0);
-  const [topHeight, setTopHeight] = useState(halfWindowHeight + 20);
+  const [topHeight, setTopHeight] = useState(halfWindowHeight + 25);
   const [bottomHeight, setBottomHeight] = useState(halfWindowHeight);
   const [showCountDown, setShowCountdown] = useState(true);
 
@@ -40,7 +40,7 @@ const CounterScreen = ({ navigation }) => {
 
   refresh = () => {
     setCounter(0);
-    setTopHeight(halfWindowHeight);
+    setTopHeight(halfWindowHeight + 25);
     setBottomHeight(halfWindowHeight);
     setShowCountdown(true);
   };
@@ -96,9 +96,9 @@ const CounterScreen = ({ navigation }) => {
             isPlaying
             duration={3}
             colors={[
-              ['#004777', 1.0],
-              ['#F7B801', 0.4],
-              ['#A30000', 0.2],
+              ['#de0404', .6],
+              ['#fffb05', 0.6],
+              ['#1ed448', 0.6],
             ]}>
             {({ remainingTime, animatedColor }) => {
               return (
